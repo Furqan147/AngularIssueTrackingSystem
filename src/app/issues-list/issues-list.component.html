@@ -1,0 +1,32 @@
+<ng-container *ngIf="showReportIssue === false">
+    <button class="btn btn-primary" (click)="showReportIssue = true">Add new issue</button>
+
+    <clr-datagrid>
+        <clr-dg-column [clrDgField]="'id'" [clrDgColType]="'number'">ID</clr-dg-column>
+        <clr-dg-column [clrDgField]="'category'">Category</clr-dg-column>
+        <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
+        <clr-dg-column [clrDgField]="'description'">Description
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'priority'">Priority
+        </clr-dg-column>
+        <clr-dg-row *clrDgItems="let issue of issues">
+            <clr-dg-action-overflow>
+                <button class="action-item" (click)="selectedIssue
+                = issue">Resolve</button>
+            </clr-dg-action-overflow>
+            <clr-dg-cell>{{issue.id}}</clr-dg-cell>
+            <clr-dg-cell>{{issue.category}}</clr-dg-cell>
+            <clr-dg-cell>{{issue.title}}</clr-dg-cell>
+            <clr-dg-cell>{{issue.description}}</clr-dg-cell>
+            <clr-dg-cell>
+                <span class="label" [class.label-danger]="issue.priority === 'high'">{{issue.priority}}</span>
+            </clr-dg-cell>
+        </clr-dg-row>
+        <clr-dg-footer>{{issues.length}} issues</clr-dg-footer>
+    </clr-datagrid>
+</ng-container>
+<app-report-issue *ngIf="showReportIssue == true" (formClose)="onCloseReport()">
+</app-report-issue>
+<app-confirm-dialog *ngIf="selectedIssue"
+ [issueId]="selectedIssue.id"
+ (confirm)="onConfirm($event)"></app-confirm-dialog>
